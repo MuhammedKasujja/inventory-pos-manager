@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+
 abstract class Controller
 {
     public function sendResponse(string|null $message = null, $data = null)
@@ -22,7 +24,7 @@ abstract class Controller
     {
         return response()->json([
             'success' => false,
-            'error' => $error
+            'error' => $error instanceof Exception ? $error->getMessage(): $error
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\StoreDataUpdates;
 use App\Models\DataUpload;
+use Exception;
 use Illuminate\Http\Request;
 
 class DataUploadController extends Controller
@@ -21,16 +22,20 @@ class DataUploadController extends Controller
      */
     public function store(Request $request)
     {
-        $update = DataUpload::create([
-            'user_id' => auth()->id(),
-            'data' => $request->get('data'),
-            'account_id' => $request->get('account_id'),
-            'creator_id' => $request->get('creator_id'),
-        ]);
+        try {
+            $update = DataUpload::create([
+                'user_id' => $request->get('user_id'),
+                'data' => $request->get('data'),
+                'account_id' => $request->get('account_id'),
+                'creator_id' => $request->get('creator_id'),
+            ]);
 
-        StoreDataUpdates::dispatch($update);
+            StoreDataUpdates::dispatch($update);
 
-        return $this->sendResponse(message: 'Data uploaded and job dispatched');
+            return $this->sendResponse(message: 'Data uploaded and job dispatched');
+        } catch (Exception $ex) {
+            return $this->sendError($ex);
+        }
     }
 
     /**
