@@ -14,6 +14,19 @@ export default function Dashboard() {
             channel.unsubscribe();
         };
     }, []);
+   
+    // Public messages
+    useEffect(() => {
+        const channel = window.Echo.channel('sent-messages');
+
+        channel.listen('.send-new', (event: any) => {
+            console.log({ UploadedData: event });
+        });
+
+        return () => {
+            channel.unsubscribe();
+        };
+    }, []);
 
     return (
         <AuthenticatedLayout

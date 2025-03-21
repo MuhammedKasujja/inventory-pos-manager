@@ -9,3 +9,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('sync_local_data', function () {
     return true;
 });
+
+Broadcast::channel('sent-messages', function () {
+    return true;
+});
