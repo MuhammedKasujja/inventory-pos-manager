@@ -11,3 +11,5 @@ Route::get('/user', function (Request $request) {
 Route::get('/messages', [DataUploadController::class, 'index']);
 
 Route::post('/messages', [DataUploadController::class, 'store']);
+
+Route::get('/messages/test', [DataUploadController::class, 'testMessage']);

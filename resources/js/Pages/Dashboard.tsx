@@ -1,7 +1,20 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 export default function Dashboard() {
+    useEffect(() => {
+        const channel = window.Echo.private('sync_local_data');
+
+        channel.listen('.updated_data', (event: any) => {
+            console.log({ UploadedData: event });
+        });
+
+        return () => {
+            channel.unsubscribe();
+        };
+    }, []);
+
     return (
         <AuthenticatedLayout
             header={

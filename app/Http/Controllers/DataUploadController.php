@@ -37,6 +37,23 @@ class DataUploadController extends Controller
             return $this->sendError($ex);
         }
     }
+    public function testMessage(Request $request)
+    {
+        try {
+            $update = DataUpload::create([
+                'user_id' => 1,
+                'data' => [],
+                'account_id' => 2,
+                'creator_id' => 2,
+            ]);
+
+            StoreDataUpdates::dispatch($update);
+
+            return $this->sendResponse(message: 'Data uploaded and job dispatched');
+        } catch (Exception $ex) {
+            return $this->sendError($ex);
+        }
+    }
 
     /**
      * Display the specified resource.

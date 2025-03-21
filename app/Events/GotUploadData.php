@@ -30,11 +30,11 @@ class GotUploadData
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('upload_channel'),
+            new PrivateChannel('sync_local_data'),
         ];
     }
 
     public function broadcastAs() {
-        
+        return 'updated_data';
     }
 }
