@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class GotUploadData
+class GotUploadData implements ShouldBroadCast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,6 +32,10 @@ class GotUploadData
         return [
             new PrivateChannel('sync_local_data'),
         ];
+    }
+
+    public function broadcastWith() {
+        return $this->data;
     }
 
     public function broadcastAs() {

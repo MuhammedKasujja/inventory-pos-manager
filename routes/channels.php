@@ -6,6 +6,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('upload_channel', function () {
+Broadcast::channel('sync_local_data', function () {
     return true;
 });
