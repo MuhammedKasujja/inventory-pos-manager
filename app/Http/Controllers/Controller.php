@@ -25,6 +25,6 @@ abstract class Controller
         return response()->json([
             'success' => false,
             'error' => $error instanceof Exception ? $error->getMessage(): $error
-        ]);
+        ], 400);
     }
 }

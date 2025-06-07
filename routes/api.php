@@ -13,6 +13,8 @@ Route::get('/messages', [DataUploadController::class, 'index']);
 
 Route::post('/messages', [DataUploadController::class, 'store']);
 
+Route::post('/upload-updates', [DataUploadController::class, 'store']);
+
 Route::get('/messages/test', [DataUploadController::class, 'testMessage']);
 
 Route::get('/channel/test', function(){

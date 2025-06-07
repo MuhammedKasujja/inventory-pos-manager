@@ -23,14 +23,23 @@ class DataUploadController extends Controller
     public function store(Request $request)
     {
         try {
-            $update = DataUpload::create([
-                'user_id' => $request->get('user_id'),
-                'data' => $request->get('data'),
-                'account_id' => $request->get('account_id'),
-                'creator_id' => $request->get('creator_id'),
-            ]);
+            \Log::info('Uploading', [
+                'user_id'=> $request->get('user_id'),
+                'account_id'=> $request->get('account_id'),
+                'creator_id'=> $request->get('creator_id'),
+                'data'=> $request->get('data'),
+        ]);
 
-            StoreDataUpdates::dispatch($update);
+            $data = new DataUpload;
+
+            $data->user_id = $request->get('user_id');
+            $data->data = $request->get('data');
+            $data->account_id = $request->get('account_id');
+            $data->creator_id = $request->get('creator_id');
+
+            $data->save();
+
+            // StoreDataUpdates::dispatch($update);
 
             return $this->sendResponse(message: 'Data uploaded and job dispatched');
         } catch (Exception $ex) {
