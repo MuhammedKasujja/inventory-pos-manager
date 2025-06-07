@@ -6,7 +6,7 @@ use Exception;
 
 abstract class Controller
 {
-    public function sendResponse(string|null $message = null, $data = null)
+    public function sendResponse($data = null, string|null $message = null,)
     {
         $response = ['success' => true];
 
