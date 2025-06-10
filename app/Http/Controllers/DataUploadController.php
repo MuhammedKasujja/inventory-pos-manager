@@ -18,7 +18,10 @@ class DataUploadController extends Controller
     public function index(Request $request)
     {
         try{
-          $data =  $this->dataService->fetchDataUpdates(deviceId: $request->deviceId);
+          $data =  $this->dataService->fetchDataUpdates(
+                       deviceId: $request->deviceId, 
+                       accountKey: $request->accountKey,
+                    );
 
           return $this->sendResponse(data: new RemoteDataResourceCollection($data));
         }catch(\Throwable $th){

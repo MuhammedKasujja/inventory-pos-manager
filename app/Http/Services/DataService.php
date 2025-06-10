@@ -9,10 +9,12 @@ use Exception;
 final class DataService
 {
 
-    public function fetchDataUpdates(string $deviceId)  {
-        $this->getSyncDeviceByDeviceId($deviceId);
+    public function fetchDataUpdates(string $deviceId, string $accountKey)  {
+        $device  = $this->getSyncDeviceByDeviceId($deviceId, $accountKey);
 
-        return DataUpload::whereNot('device_id', $deviceId)->get();
+        return DataUpload::where('account_id', $device->account_id)
+                      ->whereNot('device_id', $deviceId)
+                      ->get();
     }
 
     public function saveDataUpdates(string $userId, string $accountKey, string $deviceId, $data) {
@@ -30,7 +32,7 @@ final class DataService
 
             $uploads->user_id = $userId;
             $uploads->data = $data;
-            $uploads->account_id = $accountKey;
+            $uploads->account_id = $device->account_id;
             $uploads->device_id = $deviceId;
             $uploads->sync_devices = [$deviceId];
 
@@ -39,8 +41,9 @@ final class DataService
        return $uploads;
     }
 
-    public function getSyncDeviceByDeviceId(string $deviceId): SyncDevice {
+    public function getSyncDeviceByDeviceId(string $deviceId, string $accountKey): SyncDevice {
         $device = SyncDevice::where('device_id', $deviceId)
+            ->where('account_key', $accountKey)
             ->first();
         
         if($device === null){
