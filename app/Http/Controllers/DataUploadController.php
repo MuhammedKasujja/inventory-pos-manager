@@ -7,25 +7,25 @@ use App\Models\DataUpload;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Resources\RemoteDataResourceCollection;
+use App\Http\Services\DataService;
 
 class DataUploadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public function __construct(private DataService $dataService) {
+    }
+   
     public function index(Request $request)
     {
         try{
-          $data =  DataUpload::whereNot('device_id', $request->deviceId)->get();
+          $data =  $this->dataService->fetchDataUpdates(deviceId: $request->deviceId);
+
           return $this->sendResponse(data: new RemoteDataResourceCollection($data));
         }catch(\Throwable $th){
           return $this->sendError($th->getMessage());
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {

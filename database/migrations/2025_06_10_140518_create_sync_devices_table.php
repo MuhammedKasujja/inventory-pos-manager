@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('device_id');
             $table->string('user_id');
-            $table->string('account_id');
+            $table->foreignId('account_id')->constrained();
+            $table->string('account_key');
             $table->timestamps();
         });
     }
