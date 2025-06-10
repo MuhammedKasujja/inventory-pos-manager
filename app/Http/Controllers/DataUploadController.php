@@ -6,6 +6,7 @@ use App\Jobs\StoreDataUpdates;
 use App\Models\DataUpload;
 use Exception;
 use Illuminate\Http\Request;
+use App\Http\Resources\RemoteDataResourceCollection;
 
 class DataUploadController extends Controller
 {
@@ -14,7 +15,12 @@ class DataUploadController extends Controller
      */
     public function index()
     {
-        return $this->sendResponse(data: DataUpload::get());
+        try{
+          $data =  DataUpload::get();
+          return $this->sendResponse(data: new RemoteDataResourceCollection($data));
+        }catch(\Throwable $th){
+          return $this->sendError($th->getMessage());
+        }
     }
 
     /**
@@ -26,7 +32,7 @@ class DataUploadController extends Controller
             \Log::info('Uploading', [
                 'user_id'=> $request->get('user_id'),
                 'account_id'=> $request->get('account_id'),
-                'creator_id'=> $request->get('creator_id'),
+                'creator_id'=> $request->get('deviceId'),
                 'data'=> $request->get('data'),
         ]);
 
