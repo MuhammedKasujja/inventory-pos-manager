@@ -31,26 +31,23 @@ class DataUploadController extends Controller
         try {
             \Log::info('Uploading', [
                 'user_id'=> $request->get('user_id'),
-                'account_id'=> $request->get('account_id'),
+                'account_id'=> $request->get('account_key'),
                 'device_id'=> $request->get('deviceId'),
                 'data'=> $request->get('data'),
         ]);
 
-            $data = new DataUpload;
-
-            $data->user_id = $request->get('user_id');
-            $data->data = $request->get('data');
-            $data->account_id = $request->get('account_id');
-            $data->device_id = $request->get('deviceId');
-            $data->sync_devices = [$request->get('deviceId')];
-
-            $data->save();
+            $this->dataService->saveDataUpdates(
+                userId: $request->get('user_id'), 
+                accountKey: $request->get('account_key'),
+                deviceId: $request->get('deviceId'), 
+                data: $request->get('data'),
+            );
 
             // StoreDataUpdates::dispatch($update);
 
             return $this->sendResponse(message: 'Data uploaded and job dispatched');
         } catch (Exception $ex) {
-            return $this->sendError($ex);
+            return $this->sendError($ex->getMessage());
         }
     }
     public function testMessage(Request $request)
