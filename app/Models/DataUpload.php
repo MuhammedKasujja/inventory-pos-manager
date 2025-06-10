@@ -12,11 +12,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $user_id
  * @property int | string $data
  * @property int | string $account_id
- * @property int | string $creator_id
+ * @property int | string $device_id
  * */
 class DataUpload extends Model
 {
-    protected $fillable = ['user_id', 'account_id', 'creator_id', 'data'];
+    protected $fillable = ['user_id', 'account_id', 'device_id', 'data'];
 
     protected $casts = [
         'data' => 'array',

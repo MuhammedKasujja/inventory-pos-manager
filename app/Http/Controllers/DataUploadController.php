@@ -13,10 +13,10 @@ class DataUploadController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try{
-          $data =  DataUpload::get();
+          $data =  DataUpload::whereNot('device_id', $request->deviceId)->get();
           return $this->sendResponse(data: new RemoteDataResourceCollection($data));
         }catch(\Throwable $th){
           return $this->sendError($th->getMessage());
@@ -32,7 +32,7 @@ class DataUploadController extends Controller
             \Log::info('Uploading', [
                 'user_id'=> $request->get('user_id'),
                 'account_id'=> $request->get('account_id'),
-                'creator_id'=> $request->get('deviceId'),
+                'device_id'=> $request->get('deviceId'),
                 'data'=> $request->get('data'),
         ]);
 
@@ -41,7 +41,7 @@ class DataUploadController extends Controller
             $data->user_id = $request->get('user_id');
             $data->data = $request->get('data');
             $data->account_id = $request->get('account_id');
-            $data->creator_id = $request->get('creator_id');
+            $data->device_id = $request->get('deviceId');
 
             $data->save();
 

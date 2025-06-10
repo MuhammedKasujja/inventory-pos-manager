@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->json('data')->nullable();
             $table->string('account_id');
-            $table->string('creator_id');
+            $table->string('device_id');
             $table->timestamps();
         });
     }
