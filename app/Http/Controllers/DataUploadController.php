@@ -42,6 +42,7 @@ class DataUploadController extends Controller
             $data->data = $request->get('data');
             $data->account_id = $request->get('account_id');
             $data->device_id = $request->get('deviceId');
+            $data->sync_devices = [$request->get('deviceId')];
 
             $data->save();
 

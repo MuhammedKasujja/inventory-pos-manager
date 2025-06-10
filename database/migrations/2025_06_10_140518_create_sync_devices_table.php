@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_uploads', function (Blueprint $table) {
+        Schema::create('sync_devices', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->json('data')->nullable();
-            $table->json('sync_devices')->nullable();
-            $table->string('account_id');
             $table->string('device_id');
+            $table->string('user_id');
+            $table->string('account_id');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_uploads');
+        Schema::dropIfExists('sync_devices');
     }
 };

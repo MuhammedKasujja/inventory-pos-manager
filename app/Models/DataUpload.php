@@ -20,5 +20,6 @@ class DataUpload extends Model
 
     protected $casts = [
         'data' => 'array',
+        'sync_devices' => 'array',
     ];
 }
